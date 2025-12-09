@@ -20,11 +20,12 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-// Hash password to before save it
+    // Hash password to before save it
     UserSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 10);
     next();
     });
 
-    
+    // Compare password method
+
