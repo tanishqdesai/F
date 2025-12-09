@@ -20,3 +20,5 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+// Hash password to before save it
+    
