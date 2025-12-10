@@ -17,3 +17,9 @@ const FileSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    privacy: {
+        type: String,
+        enum: ['public', 'private'],
+        default: 'private'
+    },
+    
