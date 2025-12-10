@@ -22,4 +22,18 @@ const FileSchema = new mongoose.Schema({
         enum: ['public', 'private'],
         default: 'private'
     },
-    
+    uploadedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    uploadedAt: {
+        type: Date,
+        default: Date.now
+    },
+    shareableId: {
+        type: String,
+        unique: true
+    }
+});
+
