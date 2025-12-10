@@ -17,3 +17,13 @@ const storage = multer.diskStorage({
         cb(null, uniqueName);
     }
 });
+
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['.pdf', '.mp4'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (allowedTypes.includes(ext)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Only .pdf and .mp4 files are allowed'));
+    }
+};
