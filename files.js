@@ -18,14 +18,6 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({
-    storage: storage,
-    fileFilter: fileFilter,
-    limits: { fileSize: 20 * 1024 * 1024 } // 20MB
-});
-
-
-
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ['.pdf', '.mp4'];
     const ext = path.extname(file.originalname).toLowerCase();
@@ -35,3 +27,34 @@ const fileFilter = (req, file, cb) => {
         cb(new Error('Only .pdf and .mp4 files are allowed'));
     }
 };
+
+
+const upload = multer({
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: { fileSize: 20 * 1024 * 1024 } // 20MB
+});
+
+// Upload file
+router.post('/upload', auth, upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        const file = new File({
+            filename: req.file.filename,
+            originalName: req.file.originalname,
+            path: req.file.path,
+            size: req.file.size,
+            privacy: req.body.privacy,
+            uploadedBy: req.user._id,
+            shareableId: uuidv4()
+        });
+
+        await file.save();
+        res.json({ message: 'File uploaded successfully', file });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
