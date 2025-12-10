@@ -90,3 +90,17 @@ router.get('/:id/download', async (req, res) => {
         if (!file) {
             return res.status(404).json({ error: 'File not found' });
         }
+
+    // Check if file is public or user has access
+        if (file.privacy === 'private') {
+            // For simplicity, download with shareableId
+            if (req.query.token !== file.shareableId) {
+                return res.status(403).json({ error: 'Access denied' });
+            }
+        }
+
+        res.download(file.path, file.originalName);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
