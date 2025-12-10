@@ -70,3 +70,14 @@ router.get('/my-files', auth, async (req, res) => {
     }
 });
 
+// Get public files
+router.get('/public-files', async (req, res) => {
+    try {
+        const files = await File.find({ privacy: 'public' })
+            .sort({ uploadedAt: -1 })
+            .populate('uploadedBy', 'username');
+        res.json(files);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
