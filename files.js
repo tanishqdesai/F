@@ -104,3 +104,31 @@ router.get('/:id/download', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// Delete file
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const file = await File.findById(req.params.id);
+        
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+
+        // Check if user owns the file
+        if (file.uploadedBy.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ error: 'Not authorized' });
+        }
+
+        // Delete file from filesystem
+        fs.unlinkSync(file.path);
+
+        // Delete from database
+        await file.remove();
+        
+        res.json({ message: 'File deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+module.exports = router;
