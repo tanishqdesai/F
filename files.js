@@ -81,3 +81,12 @@ router.get('/public-files', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// Download file
+router.get('/:id/download', async (req, res) => {
+    try {
+        const file = await File.findById(req.params.id);
+        
+        if (!file) {
+            return res.status(404).json({ error: 'File not found' });
+        }
