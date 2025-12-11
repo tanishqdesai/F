@@ -45,3 +45,33 @@
 
     <script src="script.js"></script>
     <script>
+    // Check if user is logged in
+        if (!window.auth.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+        
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('file');
+            const privacy = document.getElementById('privacy').value;
+            const file = fileInput.files[0];
+            
+            // Basic validation
+            if (!file) {
+                alert('Please select a file');
+                return;
+            }
+            
+            // Check file type
+            const allowedTypes = ['application/pdf', 'video/mp4'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Only PDF and MP4 files are allowed');
+                return;
+            }
+            
+            // Check file size (20MB)
+            if (file.size > 20 * 1024 * 1024) {
+                alert('File size must be less than 20MB');
+                return;
+            }
