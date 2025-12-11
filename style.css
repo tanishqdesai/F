@@ -100,3 +100,30 @@ body {
     gap: 1rem;
     margin-top: 1rem;
 }
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 4px solid #667eea;
+}
+
+.file-info h4 {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.file-info p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.file-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+
