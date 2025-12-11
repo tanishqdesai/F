@@ -126,4 +126,47 @@ body {
     gap: 0.5rem;
 }
 
+.private-badge {
+    background: #f56565;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+}
 
+.public-badge {
+    background: #48bb78;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+}
+
+.share-link {
+    background: #e6fffa;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    word-break: break-all;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.alert-error {
+    background: #fed7d7;
+    color: #742a2a;
+}
+
+.hidden {
+    display: none;
+}
