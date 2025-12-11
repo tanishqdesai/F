@@ -58,3 +58,11 @@ body {
 .form-group {
     margin-bottom: 1rem;
 }
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
