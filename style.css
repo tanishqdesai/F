@@ -46,3 +46,11 @@ body {
 .nav-links a:hover {
     background: #f0f0f0;
 }
+
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
