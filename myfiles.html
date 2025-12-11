@@ -92,3 +92,33 @@
                     '<p class="alert alert-error">Error loading files. Please try again.</p>';
             }
         }
+
+       async function deleteFile(fileId) {
+            if (!confirm('Are you sure you want to delete this file?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${window.auth.API_URL}/files/${fileId}`, {
+                    method: 'DELETE',
+                    headers: window.auth.getAuthHeaders()
+                });
+                
+                if (response.ok) {
+                    alert('File deleted successfully');
+                    loadMyFiles();
+                } else {
+                    const data = await response.json();
+                    alert(data.error || 'Failed to delete file');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+        
+        // Load files when page loads
+        document.addEventListener('DOMContentLoaded', loadMyFiles);
+    </script>
+</body>
+</html>
