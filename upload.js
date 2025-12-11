@@ -94,4 +94,21 @@
                 });
                 
                 const data = await response.json();
-                
+                  if (response.ok) {
+                    alert('File uploaded successfully!');
+                    window.location.href = 'myfiles.html';
+                } else {
+                    alert(data.error || 'Upload failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            } finally {
+                document.getElementById('uploadProgress').classList.add('hidden');
+                progressBar.style.width = '0%';
+                progressText.textContent = '0%';
+            }
+        });
+    </script>
+</body>
+</html>
