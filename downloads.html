@@ -25,7 +25,7 @@
             <p>Browse and download files shared publicly by our users.</p>
             
             <div id="publicFiles" class="file-list">
-                <!-- Public files will be loaded here -->
+                <!-- Public files are loaded here -->
                 <p>Loading public files...</p>
             </div>
         </div>
@@ -35,4 +35,62 @@
     <script>
         async function loadPublicFiles() {
             try {
-       
+                const response = await fetch(`${window.auth.API_URL}/files/public-files`);
+                const files = await response.json();
+                
+                const filesList = document.getElementById('publicFiles');
+                filesList.innerHTML = '';
+                
+                if (files.length === 0) {
+                    filesList.innerHTML = '<p>No public files available yet.</p>';
+                    return;
+                }
+                
+                files.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    
+                    fileItem.innerHTML = `
+                        <div class="file-info">
+                            <h4>${file.originalName}</h4>
+                            <p>
+                                <span class="public-badge">Public</span> • 
+                                Size: ${window.auth.formatFileSize(file.size)} • 
+                                Uploaded by: ${file.uploadedBy.username} • 
+                                ${window.auth.formatDate(file.uploadedAt)}
+                            </p>
+                        </div>
+                        <div class="file-actions">
+                            <a href="${window.auth.API_URL}/files/${file._id}/download" class="btn" download>
+                                Download
+                            </a>
+                        </div>
+                    `;
+                    
+                    filesList.appendChild(fileItem);
+                });
+            } catch (error) {
+                console.error('Error loading files:', error);
+                document.getElementById('publicFiles').innerHTML = 
+                    '<p class="alert alert-error">Error loading files. Please try again.</p>';
+            }
+        }
+        
+        // Checking the URL for share token
+        const urlParams = new URLSearchParams(window.location.search);
+        const shareToken = urlParams.get('token');
+        
+        if (shareToken) {
+            // Load specific file via share token
+            // Implement this endpoint to fetch file by shareableId
+            alert('Share link detected. File access would be implemented here.');
+        }
+        
+        // Load public files
+        document.addEventListener('DOMContentLoaded', () => {
+            window.auth.updateNavigation();
+            loadPublicFiles();
+        });
+    </script>
+</body>
+</html>
