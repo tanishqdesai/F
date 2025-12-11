@@ -30,7 +30,8 @@
             </div>
         </div>
     </div>
-<script src="script.js"></script>
+
+    <script src="script.js"></script>
     <script>
         // Check if user is logged in
         if (!window.auth.isLoggedIn()) {
@@ -59,3 +60,35 @@
                   const privacyBadge = file.privacy === 'private' ? 
                         '<span class="private-badge">Private</span>' : 
                         '<span class="public-badge">Public</span>';
+         fileItem.innerHTML = `
+                        <div class="file-info">
+                            <h4>${file.originalName}</h4>
+                            <p>
+                                ${privacyBadge} • 
+                                Size: ${window.auth.formatFileSize(file.size)} • 
+                                Uploaded: ${window.auth.formatDate(file.uploadedAt)}
+                            </p>
+                            ${file.privacy === 'private' ? `
+                                <div class="share-link">
+                                    Share link: ${window.location.origin}/frontend/downloads.html?token=${file.shareableId}
+                                </div>
+                            ` : ''}
+                             </div>
+                        <div class="file-actions">
+                            <a href="${window.auth.API_URL}/files/${file._id}/download" class="btn" download>
+                                Download
+                            </a>
+                            <button onclick="deleteFile('${file._id}')" class="btn btn-danger">
+                                Delete
+                            </button>
+                        </div>
+                    `;
+                    
+                    filesList.appendChild(fileItem);
+                });
+              } catch (error) {
+                console.error('Error loading files:', error);
+                document.getElementById('filesList').innerHTML = 
+                    '<p class="alert alert-error">Error loading files. Please try again.</p>';
+            }
+        }
