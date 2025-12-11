@@ -75,3 +75,23 @@
                 alert('File size must be less than 20MB');
                 return;
             }
+        // Show progress
+            document.getElementById('uploadProgress').classList.remove('hidden');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('privacy', privacy);
+            
+            try {
+                const response = await fetch(`${window.auth.API_URL}/files/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
