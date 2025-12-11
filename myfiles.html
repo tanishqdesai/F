@@ -30,4 +30,32 @@
             </div>
         </div>
     </div>
+<script src="script.js"></script>
+    <script>
+        // Check if user is logged in
+        if (!window.auth.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+        
+        async function loadMyFiles() {
+            try {
+                const response = await fetch(`${window.auth.API_URL}/files/my-files`, {
+                    headers: window.auth.getAuthHeaders()
+                });
+                
+                const files = await response.json();
+                
+                const filesList = document.getElementById('filesList');
+                filesList.innerHTML = '';
+                   if (files.length === 0) {
+                    filesList.innerHTML = '<p>You haven\'t uploaded any files yet.</p>';
+                    return;
+                }
+                
+                files.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
 
+                  const privacyBadge = file.privacy === 'private' ? 
+                        '<span class="private-badge">Private</span>' : 
+                        '<span class="public-badge">Public</span>';
